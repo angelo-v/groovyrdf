@@ -1,6 +1,6 @@
 # groovyrdf
 
-Library for building RDF data with Groovy
+Library for building RDF data with Groovy. groovyrdf helps you to build RDF "the groovy way".
 
 ## Contact
 
