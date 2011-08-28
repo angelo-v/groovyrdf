@@ -52,6 +52,19 @@ class JenaRdfData implements RdfData {
 		jenaModel.write(outputStream, formatMap[format])		
 	}
 	
+	def propertyMissing(String resourceUri){
+		return getRdfResource(resourceUri)
+	}
+	
+	def call(String resourceUri) {
+		return getRdfResource(resourceUri)
+	}
+	
+	private def getRdfResource(String resourceUri) {
+		Resource resource = jenaModel.getResource(resourceUri)
+		return new JenaRdfResource(resource)
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this.is(obj))
@@ -64,7 +77,7 @@ class JenaRdfData implements RdfData {
 		if (jenaModel == null) {
 			if (other.jenaModel != null)
 				return false;
-		} else if (!jenaModel.isIsomorphicWith(other.jenaModel))
+		} else if (!other.jenaModel || !jenaModel.isIsomorphicWith(other.jenaModel))
 			return false;
 		return true;
 	}
