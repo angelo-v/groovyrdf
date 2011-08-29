@@ -221,5 +221,5 @@ https://github.com/angelo-v/groovyrdf/tree/master/src/test/groovy/de/datenwissen
 And now, be creative using groovyrdf to build your RDF data "the groovy way".
 Questions, ideas and any feedback may be sent to angelo.veltens@online.de
 
-To contribute to groovyrdf just branch and sent a pull request at github:
+To contribute to groovyrdf just fork and sent a pull request at github:
 https://github.com/angelo-v/groovyrdf
