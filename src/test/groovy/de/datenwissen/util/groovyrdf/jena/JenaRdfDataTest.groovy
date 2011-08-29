@@ -69,7 +69,7 @@ class JenaRdfDataTest {
 	@Test
 	void testGetLiteralProperty() {
 		RdfResource alice = rdfData."http://example.com/resource/alice"
-		String name = alice.(vocab.name)
+		String name = alice[vocab.name]
 		assertEquals("Alice", name)
 	}
 	
@@ -83,7 +83,7 @@ class JenaRdfDataTest {
 	@Test
 	void testGetTypedLiteralProperty() {
 		RdfResource alice = rdfData."http://example.com/resource/alice"
-		int age = alice.(vocab.age)
+		int age = alice[vocab.age]
 		assertEquals(23, age)
 	}
 	
@@ -97,7 +97,7 @@ class JenaRdfDataTest {
 	@Test
 	void testGetResourceProperty() {
 		RdfResource alice = rdfData."http://example.com/resource/alice"
-		RdfResource bob = alice.(vocab.friend)
+		RdfResource bob = alice[vocab.friend]
 		assertEquals("http://example.com/resource/bob", bob.uri)
 		assertEquals("Bob", bob.(vocab.name))
 		assertEquals(25, bob.(vocab.age))
@@ -115,7 +115,7 @@ class JenaRdfDataTest {
 	@Test
 	void testGetManyLiteralProperties() {
 		RdfResource alice = rdfData."http://example.com/resource/alice"
-		def nickSet = alice.(vocab.nick)
+		def nickSet = alice[vocab.nick]
 		
 		assertTrue(nickSet instanceof Set)
 		assertEquals(2, nickSet.size())
@@ -128,7 +128,7 @@ class JenaRdfDataTest {
 	@Test
 	void testGetManyResourceProperties() {
 		RdfResource alice = rdfData."http://example.com/resource/alice"
-		def knowsSet = alice.(vocab.knows)
+		def knowsSet = alice[vocab.knows]
 		
 		assertTrue(knowsSet instanceof Set)
 		assertEquals(3, knowsSet.size())
@@ -160,6 +160,21 @@ class JenaRdfDataTest {
 		assertEquals("Reading", value)
 		value = alice(vocab.hobby, "de")
 		assertNull(value)
+	}
+	
+	@Test
+	void testListProperties() {
+		def expectedProperties = [
+			vocab.name,
+			vocab.nick,
+			vocab.age,
+			vocab.title,
+			vocab.hobby,
+			vocab.friend,
+			vocab.knows
+		] as Set
+		RdfResource alice = rdfData."http://example.com/resource/alice"
+		assertEquals(expectedProperties, alice.listProperties())
 	}
 	
 	@Test

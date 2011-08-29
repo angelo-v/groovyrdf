@@ -5,6 +5,7 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory
 import com.hp.hpl.jena.rdf.model.Statement
 import com.hp.hpl.jena.vocabulary.RDF
 
+import de.datenwissen.util.groovyrdf.core.RdfBuilder;
 import de.datenwissen.util.groovyrdf.core.RdfResource
 
 class JenaRdfResource implements RdfResource {
@@ -21,6 +22,16 @@ class JenaRdfResource implements RdfResource {
 	
 	String getType() {
 		return jenaResource.getProperty(RDF.type).getResource().getURI()
+	}
+	
+	Set<String> listProperties() {
+		def statements = jenaResource.listProperties().toList()
+		def result = [] as Set
+		statements.each {
+			result += it.getPredicate().getURI()
+		}
+		result.remove(RDF.type.getURI())
+		return result
 	}
 	
 	def propertyMissing(String propertyUri){
@@ -67,6 +78,10 @@ class JenaRdfResource implements RdfResource {
 		} else {
 			return new JenaRdfResource(node.asResource())
 		}
+	}
+	
+	String toString() {
+		return uri
 	}
 	
 }
