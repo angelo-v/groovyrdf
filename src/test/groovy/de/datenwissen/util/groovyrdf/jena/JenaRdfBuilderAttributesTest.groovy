@@ -1,22 +1,17 @@
 package de.datenwissen.util.groovyrdf.jena;
 
-import static org.junit.Assert.*
-import static de.datenwissen.util.groovyrdf.test.Assert.*
 
-import org.junit.Before
-import org.junit.Test
-
-import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.rdf.model.Model
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.rdf.model.Resource
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.shared.InvalidPropertyURIException;
+import com.hp.hpl.jena.rdf.model.ResourceFactory
+import com.hp.hpl.jena.shared.InvalidPropertyURIException
+import de.datenwissen.util.groovyrdf.core.RdfData
+import de.datenwissen.util.groovyrdf.core.RdfNamespace
+import org.junit.Before
+import org.junit.Test
 
-import de.datenwissen.util.groovyrdf.core.RdfData;
-import de.datenwissen.util.groovyrdf.core.RdfNamespace;
-import de.datenwissen.util.groovyrdf.jena.JenaRdfBuilder
-import de.datenwissen.util.groovyrdf.jena.JenaRdfData;
+import static de.datenwissen.util.groovyrdf.test.Assert.*
 
 class JenaRdfBuilderAttributesTest {
 

@@ -17,6 +17,13 @@ import de.datenwissen.util.groovyrdf.core.RdfData;
  *
  */
 class JenaRdfBuilder extends BuilderSupport implements RdfBuilder {
+
+    /**
+     * TODO
+     * - add release notes
+     * - loading of rdf data from www
+     * - mapping objects to rdf and vice versa with annotations or static rdfMapping configuration
+     */
 	
 	Logger log = LoggerFactory.getLogger(JenaRdfBuilder.class);
 	

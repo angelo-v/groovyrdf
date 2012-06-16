@@ -1,27 +1,13 @@
 package de.datenwissen.util.groovyrdf.jena;
 
-import java.io.StringWriter;
 
-import static de.datenwissen.util.groovyrdf.test.Assert.*;
-import static org.junit.Assert.*;
+import de.datenwissen.util.groovyrdf.core.RdfData
+import de.datenwissen.util.groovyrdf.core.RdfDataFormat
+import org.junit.Before
+import org.junit.Test
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
-import com.sun.corba.se.spi.orb.DataCollector;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.ForEach;
-
-import de.datenwissen.util.groovyrdf.core.RdfData;
-import de.datenwissen.util.groovyrdf.core.RdfDataFormat;
-import de.datenwissen.util.groovyrdf.jena.JenaRdfBuilder;
-import de.datenwissen.util.groovyrdf.jena.JenaRdfData;
+import static de.datenwissen.util.groovyrdf.test.Assert.*
+import static org.junit.Assert.assertNotNull
 
 /**
  * This tests covers the building of rdf data with a {@link JenaRdfBuilder}.
