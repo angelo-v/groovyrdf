@@ -7,7 +7,8 @@ import de.datenwissen.util.groovyrdf.core.RdfData;
 import de.datenwissen.util.groovyrdf.core.RdfDataFormat
 import com.hp.hpl.jena.vocabulary.RDF
 import com.hp.hpl.jena.rdf.model.ResourceFactory
-import com.hp.hpl.jena.rdf.model.ResIterator;
+import com.hp.hpl.jena.rdf.model.ResIterator
+import de.datenwissen.util.groovyrdf.core.RdfResource;
 
 /**
  * This implementation of {@link RdfData} stores the data in ja Jena-Model
@@ -58,7 +59,7 @@ class JenaRdfData implements RdfData {
         return getRdfResource (resourceUri)
     }
 
-    private def getRdfResource (String resourceUri) {
+    private RdfResource getRdfResource (String resourceUri) {
         Resource resource = jenaModel.getResource (resourceUri)
         return new JenaRdfResource (resource)
     }
@@ -88,21 +89,22 @@ class JenaRdfData implements RdfData {
     }
 
     @Override
-    List<String> listSubjects () {
+    List<RdfResource> listSubjects () {
         Iterator<Resource> subjects = jenaModel.listSubjects ()
-        return collectSubjectUris (subjects)
+        return collectSubjects (subjects)
     }
 
     @Override
-    List<String> listSubjects (String typeUri) {
+    List<RdfResource> listSubjects (String typeUri) {
         Iterator<Resource> subjects = jenaModel.listSubjectsWithProperty (RDF.type, ResourceFactory.createResource (typeUri))
-        return collectSubjectUris (subjects)
+        return collectSubjects (subjects)
     }
 
-    private ArrayList<String> collectSubjectUris (ResIterator subjects) {
-        List<String> subjectUris = []
+    private List<RdfResource> collectSubjects (ResIterator subjects) {
+        List<RdfResource> subjectUris = []
         while (subjects.hasNext ()) {
-            subjectUris.add (subjects.next ().getURI ())
+            def uri = subjects.next ().getURI ()
+            subjectUris.add (getRdfResource(uri))
         }
         return subjectUris
     }

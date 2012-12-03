@@ -21,17 +21,17 @@ interface RdfData {
     void write (OutputStream outputStream, RdfDataFormat format)
 
     /**
-     * Lists the URIs of the subjects present in this RdfData
-     * @return The subject URIs as List<String>
+     * Lists the of the subjects present in this RdfData
+     * @return The subject resources as List<RdfResource>
      */
-    List<String> listSubjects ()
+    List<RdfResource> listSubjects ()
 
     /**
-     * Lists the URIs of the subjects present in this RdfData, that have the given type.
+     * Lists the of the subjects present in this RdfData, that have the given type.
      * @param typeUri The URI of the desired type
-     * @return The subject URIs as List<String>
+     * @return The subject resources as List<RdfResource>
      */
-    List<String> listSubjects (String typeUri)
+    List<RdfResource> listSubjects (String typeUri)
 
     /**
      * Converts the data to a {@link String} in a representation like RDF/XML or N3

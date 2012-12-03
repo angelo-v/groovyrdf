@@ -212,12 +212,12 @@ class JenaRdfDataTest {
                 'http://example.com/resource/carl',
                 'http://example.com/resource/bob',
                 'http://example.com/resource/trudy'
-        ] as Set, rdfData.listSubjects ().toSet ())
+        ] as Set, rdfData.listSubjects ()*.uri.toSet ())
     }
 
     @Test
     void testListSubjectsOfType () {
-        assertEquals (['http://example.com/resource/alice'], rdfData.listSubjects (vocab.Person))
+        assertEquals (['http://example.com/resource/alice'], rdfData.listSubjects (vocab.Person)*.uri)
     }
 
     @Test
