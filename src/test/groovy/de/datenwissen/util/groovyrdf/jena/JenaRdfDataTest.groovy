@@ -68,6 +68,12 @@ class JenaRdfDataTest {
     }
 
     @Test
+    void testGetTypeWithoutType () {
+        RdfResource bob = rdfData "http://example.com/resource/bob"
+        assertNull 'Bob should have no type', bob.type
+    }
+
+    @Test
     void testGetLiteralProperty () {
         RdfResource alice = rdfData."http://example.com/resource/alice"
         String name = alice[vocab.name]
@@ -197,6 +203,21 @@ class JenaRdfDataTest {
         ] as Set
         RdfResource alice = rdfData."http://example.com/resource/alice"
         assertEquals (expectedProperties, alice.listProperties ())
+    }
+
+    @Test
+    void testListSubjects () {
+        assertEquals ([
+                'http://example.com/resource/alice',
+                'http://example.com/resource/carl',
+                'http://example.com/resource/bob',
+                'http://example.com/resource/trudy'
+        ] as Set, rdfData.listSubjects ().toSet ())
+    }
+
+    @Test
+    void testListSubjectsOfType () {
+        assertEquals (['http://example.com/resource/alice'], rdfData.listSubjects (vocab.Person))
     }
 
     @Test

@@ -21,7 +21,7 @@ class JenaRdfResource implements RdfResource {
     }
 
     String getType () {
-        return jenaResource.getProperty (RDF.type).getResource ().getURI ()
+        return jenaResource.getProperty (RDF.type)?.getResource ()?.getURI ()
     }
 
     Set<String> listProperties () {
