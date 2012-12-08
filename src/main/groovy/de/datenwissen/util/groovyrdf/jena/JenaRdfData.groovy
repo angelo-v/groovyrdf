@@ -19,15 +19,6 @@ class JenaRdfData implements RdfData {
 
     private Model jenaModel
 
-    private Map<RdfDataFormat, String> formatMap =
-        [
-                (RdfDataFormat.TURTLE): "TURTLE",
-                (RdfDataFormat.RDF_XML): "RDF/XML",
-                (RdfDataFormat.RDF_XML_ABBREV): "RDF/XML-ABBREV",
-                (RdfDataFormat.N3): "N3",
-                (RdfDataFormat.N_TRIPLE): "N-TRIPLE"
-        ]
-
     public JenaRdfData (Model jenaModel) {
         this.jenaModel = jenaModel
     }
@@ -36,6 +27,7 @@ class JenaRdfData implements RdfData {
         return jenaModel
     }
 
+    @SuppressWarnings ("GroovyAssignabilityCheck")
     protected Object createNode (Model model, Object name) {
         Resource resource = model.createResource (name)
         return new JenaResourceBuilder (resource: resource)
@@ -43,12 +35,12 @@ class JenaRdfData implements RdfData {
 
     @Override
     public void write (Writer writer, RdfDataFormat format) {
-        jenaModel.write (writer, formatMap[format])
+        jenaModel.write (writer, format.jenaFormat)
     }
 
     @Override
     public void write (OutputStream outputStream, RdfDataFormat format) {
-        jenaModel.write (outputStream, formatMap[format])
+        jenaModel.write (outputStream, format.jenaFormat)
     }
 
     def propertyMissing (String resourceUri) {
@@ -111,7 +103,7 @@ class JenaRdfData implements RdfData {
 
     @Override
     public String toString () {
-        return toString (RdfDataFormat.RDF_XML)
+        return toString (RdfDataFormat.TURTLE)
     }
 
 
