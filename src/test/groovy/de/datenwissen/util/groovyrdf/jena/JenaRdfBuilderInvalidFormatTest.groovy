@@ -1,15 +1,12 @@
 package de.datenwissen.util.groovyrdf.jena;
 
-import static de.datenwissen.util.groovyrdf.test.Assert.*
-import static org.junit.Assert.*
 
+import de.datenwissen.util.groovyrdf.core.InvalidNestingException
+import de.datenwissen.util.groovyrdf.core.RdfData
 import org.junit.Before
 import org.junit.Test
 
-import de.datenwissen.util.groovyrdf.core.InvalidNestingException;
-import de.datenwissen.util.groovyrdf.core.RdfData;
-import de.datenwissen.util.groovyrdf.jena.JenaRdfBuilder
-
+import static de.datenwissen.util.groovyrdf.test.Assert.*
 
 /**
  * This test covers invalid formatting / nesting of {@link JenaRdfBuilder} closures
