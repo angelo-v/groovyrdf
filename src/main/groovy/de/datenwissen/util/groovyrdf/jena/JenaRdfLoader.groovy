@@ -19,7 +19,7 @@ class JenaRdfLoader implements RdfLoader {
     private static final String ACCEPT_HEADER = 'application/rdf+xml;q=0.4, text/turtle;q=0.3, text/n3;q=0.2, text/plain;q=0.1'
 
     @Override
-    RdfData load (String requestUri) throws RdfParsingException {
+    RdfData load (String requestUri) throws RdfParsingException, RdfLoadingException {
         if  (!requestUri) throw new RdfLoadingException('The request URI must not be null')
         def http = new HTTPBuilder (requestUri)
         def result = null
@@ -70,7 +70,7 @@ class JenaRdfLoader implements RdfLoader {
 
     @SuppressWarnings ("GroovyAssignabilityCheck")
     @Override
-    RdfResource loadResource (String uri) throws RdfParsingException {
+    RdfResource loadResource (String uri) throws RdfParsingException, RdfLoadingException {
         RdfData rdfData = load (uri)
         return rdfData (uri)
     }
