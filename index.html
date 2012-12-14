@@ -1,4 +1,37 @@
-<h1>User guide - groovyrdf</h1>
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Groovyrdf : Library for building RDF data with Groovy" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Groovyrdf</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/angelo-v/groovyrdf">View on GitHub</a>
+
+          <h1 id="project_title">Groovyrdf</h1>
+          <h2 id="project_tagline">Library for building RDF data with Groovy</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/angelo-v/groovyrdf/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/angelo-v/groovyrdf/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>User guide - groovyrdf</h1>
 
 <h2>General syntax</h2>
 
@@ -166,7 +199,7 @@ RdfData rdfData = rdfBuilder {
 <pre><code>def vocab = new RdfNamespace("http://example.com/vocab/")
 </code></pre>
 
-<p>Any call to a property of vocab will result in a String of the form "http://example.com/vocab/property"</p>
+<p>Any call to a property of vocab will result in a String of the form "<a href="http://example.com/vocab/property">http://example.com/vocab/property</a>"</p>
 
 <pre><code>vocab.anything == "http://example.com/vocab/anything"
 </code></pre>
@@ -189,7 +222,7 @@ RdfData rdfData = rdfBuilder {
 
 <h4>Why this strange "$vocab.name"-Syntax?</h4>
 
-<p>Because RdfBuilder actually has to call a method named "http://example.com/vocab/name" to build the statement.
+<p>Because RdfBuilder actually has to call a method named "<a href="http://example.com/vocab/name">http://example.com/vocab/name</a>" to build the statement.
 If we just wrote vocab.name Groovy would try to call a method <em>on</em> the resulting string instead of calling a method
 that is named like the value <em>in</em> the string. You will get used to it ;-)</p>
 
@@ -231,12 +264,27 @@ RdfData rdfData = rdfBuilder {
 
 <p>For more examples a look at the groovyrdf unit tests might be helpful:</p>
 
-<p>https://github.com/angelo-v/groovyrdf/tree/master/src/test/groovy/de/datenwissen/util/groovyrdf</p>
+<p><a href="https://github.com/angelo-v/groovyrdf/tree/master/src/test/groovy/de/datenwissen/util/groovyrdf">https://github.com/angelo-v/groovyrdf/tree/master/src/test/groovy/de/datenwissen/util/groovyrdf</a></p>
 
 <h2>Final words</h2>
 
 <p>And now, be creative using groovyrdf to build your RDF data "the groovy way".
-Questions, ideas and any feedback may be sent to angelo.veltens@online.de</p>
+Questions, ideas and any feedback may be sent to <a href="mailto:angelo.veltens@online.de">angelo.veltens@online.de</a></p>
 
 <p>To contribute to groovyrdf just fork and sent a pull request at github:
-https://github.com/angelo-v/groovyrdf</p>
+<a href="https://github.com/angelo-v/groovyrdf">https://github.com/angelo-v/groovyrdf</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Groovyrdf maintained by <a href="https://github.com/angelo-v">angelo-v</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
