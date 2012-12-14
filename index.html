@@ -1,1 +1,242 @@
-groovyrdf GitHub Page
+<h1>User guide - groovyrdf</h1>
+
+<h2>General syntax</h2>
+
+<pre><code>rdfBuilderInstance {
+  resourceUri {
+    a typeUri
+    predicateUri value
+    predicateUri list
+    predicateUri value, [lang: language]
+    predicateUri {
+      resourceUri {
+        // more statements if needed
+      }
+    }
+  }
+}
+
+rdfBuilderInstance: Instance of RdfBuilder
+resourceUri: String that contains a URI of a resource
+a: Keyword for a type property
+typeUri: String that contains a URI of a type
+predicateUri: String that contains a URI of a predicate
+value: a String or a primitive
+list: a list of values 
+lang: Keyword for setting a language tag
+language: String containing a language tag
+</code></pre>
+
+<h2>Code Examples</h2>
+
+<h3>Instantiate RdfBuilder</h3>
+
+<p>Currently a RdfBuilder based on the Jena-Framework is supported:</p>
+
+<pre><code>def rdfBuilder = new JenaRdfBuilder()
+</code></pre>
+
+<p>You may use a BuilderFactory to instantiate a RdfBuilder:</p>
+
+<pre><code>def rdfBuilder = new JenaRdfBuilderFactory().newInstance()
+</code></pre>
+
+<h3>Build &amp; write RdfData</h3>
+
+<pre><code>def rdfBuilder = new JenaRdfBuilder()
+
+RdfData rdfData = rdfBuilder {
+  // statements
+}
+</code></pre>
+
+<p>You can export it to TURTLE like this:</p>
+
+<pre><code>rdfData.write(System.out, RdfDataFormat.TURTLE)
+</code></pre>
+
+<h3>Simple statement</h3>
+
+<pre><code>RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+    "http://example.com/vocab/name" "Alice"
+  }
+}
+</code></pre>
+
+<p>is equivalent to the following RDF in TURTLE syntax:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  &lt;http://example.com/vocab/name&gt; "Alice".
+</code></pre>
+
+<h3>RDF types</h3>
+
+<p>Use the "a" keyword as a shortcut for the rdf:type predicate:</p>
+
+<pre><code>RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+     a "http://example.com/vocab/Person"
+    "http://example.com/vocab/name" "Alice"
+  }
+}
+</code></pre>
+
+<p>is equivalent to the following RDF in TURTLE syntax:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  a &lt;http://example.com/vocab/Person&gt;;
+  &lt;http://example.com/vocab/name&gt; "Alice".
+</code></pre>
+
+<h3>Multiple literals</h3>
+
+<p>Just pass a groovy list to assign multiple values:</p>
+
+<pre><code>def names = ["Alice", "Julia"]
+
+RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+     a "http://example.com/vocab/Person"
+    "http://example.com/vocab/name" names
+  }
+}
+</code></pre>
+
+<p>is equivalent to the following RDF in TURTLE syntax:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  a &lt;http://example.com/vocab/Person&gt;;
+  &lt;http://example.com/vocab/name&gt; "Alice", "Julia".
+</code></pre>
+
+<h3>Language tags</h3>
+
+<p>You can easily assign a language to a literal like this:</p>
+
+<pre><code>RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+     a "http://example.com/vocab/Person"
+    "http://example.com/vocab/name" "Alice", [lang: "en"]
+  }
+}
+</code></pre>
+
+<p>is equivalent to the following RDF in TURTLE syntax:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  a &lt;http://example.com/vocab/Person&gt;;
+  &lt;http://example.com/vocab/name&gt; "Alice"@en.
+</code></pre>
+
+<h3>Nested resources</h3>
+
+<p>Of course you can nest resources:</p>
+
+<pre><code>RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+     a "http://example.com/vocab/Person"
+    "http://example.com/vocab/name" "Alice"
+    "http://example.com/vocab/knows" {
+      "http://example.com/resource/bob" {
+         a "http://example.com/vocab/Person"
+        "http://example.com/vocab/name" "Bob"
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>is equivalent to the following RDF in TURTLE syntax:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  a &lt;http://example.com/vocab/Person&gt;;
+  &lt;http://example.com/vocab/name&gt; "Alice";
+  &lt;http://example.com/vocab/knows&gt; &lt;http://example.com/resource/bob&gt;.
+
+&lt;http://example.com/resource/bob&gt;
+  a &lt;http://example.com/vocab/Person&gt;;
+  &lt;http://example.com/vocab/name&gt; "Bob".
+</code></pre>
+
+<h3>Using namespaces</h3>
+
+<p>The code will be much clearer if you use namespaces:</p>
+
+<pre><code>def vocab = new RdfNamespace("http://example.com/vocab/")
+</code></pre>
+
+<p>Any call to a property of vocab will result in a String of the form "http://example.com/vocab/property"</p>
+
+<pre><code>vocab.anything == "http://example.com/vocab/anything"
+</code></pre>
+
+<p>The "Nested resources" example with the help of this namespace:</p>
+
+<pre><code>RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+     a vocab.Person
+    "$vocab.name" "Alice"
+    "$vocab.knows" {
+      "http://example.com/resource/bob" {
+         a vocab.Person
+        "$vocab.name" "Bob"
+      }
+    }
+  }
+}
+</code></pre>
+
+<h4>Why this strange "$vocab.name"-Syntax?</h4>
+
+<p>Because RdfBuilder actually has to call a method named "http://example.com/vocab/name" to build the statement.
+If we just wrote vocab.name Groovy would try to call a method <em>on</em> the resulting string instead of calling a method
+that is named like the value <em>in</em> the string. You will get used to it ;-)</p>
+
+<h3>Be dynamic</h3>
+
+<p>Of course when using a scripting language, you want to build your RDF dynamically based on some data structures.
+Here is an example with a Person class:</p>
+
+<pre><code>class Person {
+  String uri
+  String name
+  List&lt;Person&gt; friends
+}      
+</code></pre>
+
+<p>This will generate RDF data with the name of a person and all their friends:</p>
+
+<pre><code>Person person = ... // whatever you program does to set up a person
+
+def vocab = new RdfNamespace("http://example.com/vocab/")
+
+RdfData rdfData = rdfBuilder {
+  "$person.uri" {
+     a vocab.Person
+    "$vocab.name" person.name
+    "$vocab.knows" {
+      person.friends.each { friend -&gt;
+        "$friend.uri" {
+           a vocab.Person
+          "$vocab.name" friend.name
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+<h3>Take a look at the unit tests</h3>
+
+<p>For more examples a look at the groovyrdf unit tests might be helpful:</p>
+
+<p>https://github.com/angelo-v/groovyrdf/tree/master/src/test/groovy/de/datenwissen/util/groovyrdf</p>
+
+<h2>Final words</h2>
+
+<p>And now, be creative using groovyrdf to build your RDF data "the groovy way".
+Questions, ideas and any feedback may be sent to angelo.veltens@online.de</p>
+
+<p>To contribute to groovyrdf just fork and sent a pull request at github:
+https://github.com/angelo-v/groovyrdf</p>
