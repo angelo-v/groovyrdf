@@ -1,10 +1,10 @@
 # groovyrdf
 
-Library for building RDF data with Groovy. groovyrdf helps you to build RDF "the groovy way".
+Library for building and processing RDF data with Groovy. groovyrdf helps you to build and consume RDF and Linked Data "the groovy way".
 
 ## Usage
 
-Please take a look at the user guide on how to use groovyrdf. The guide can be found in the /userguide directory.
+Please take a look at the user guide on how to use groovyrdf. The guide can be found in the /userguide directory and at http://angelo-v.github.com/groovyrdf/
 
 ## Contact
 

@@ -1,5 +1,7 @@
 # User guide - groovyrdf
 
+Version 0.2
+
 groovyrdf is a groovy library that helps you building and consuming RDF data in a "groovy" way.  For building RDF see section "Building RDF". If you want to process RDF data or even load linked data resoures see section "Loading & consuming RDF".
 
 ## Building RDF
