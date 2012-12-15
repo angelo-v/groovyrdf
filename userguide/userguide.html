@@ -1,6 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>User guide - groovyrdf</title>
+</head>
+<body>
+
 <h1>User guide - groovyrdf</h1>
 
-<h2>General syntax</h2>
+<p>groovyrdf is a groovy library that helps you building and consuming RDF data in a "groovy" way.  For building RDF see section "Building RDF". If you want to process RDF data or even load linked data resoures see section "Loading &amp; consuming RDF".</p>
+
+<h2>Building RDF</h2>
+
+<h3>General syntax</h3>
 
 <pre><code>rdfBuilderInstance {
   resourceUri {
@@ -16,6 +28,7 @@
   }
 }
 
+/*
 rdfBuilderInstance: Instance of RdfBuilder
 resourceUri: String that contains a URI of a resource
 a: Keyword for a type property
@@ -25,11 +38,12 @@ value: a String or a primitive
 list: a list of values 
 lang: Keyword for setting a language tag
 language: String containing a language tag
+*/
 </code></pre>
 
-<h2>Code Examples</h2>
+<h3>Code Examples</h3>
 
-<h3>Instantiate RdfBuilder</h3>
+<h4>Instantiate RdfBuilder</h4>
 
 <p>Currently a RdfBuilder based on the Jena-Framework is supported:</p>
 
@@ -41,7 +55,9 @@ language: String containing a language tag
 <pre><code>def rdfBuilder = new JenaRdfBuilderFactory().newInstance()
 </code></pre>
 
-<h3>Build &amp; write RdfData</h3>
+<p>RdfBuilder is not thread-safe and cannot be reused for multiple builds.</p>
+
+<h4>Build &amp; write RdfData</h4>
 
 <pre><code>def rdfBuilder = new JenaRdfBuilder()
 
@@ -55,7 +71,7 @@ RdfData rdfData = rdfBuilder {
 <pre><code>rdfData.write(System.out, RdfDataFormat.TURTLE)
 </code></pre>
 
-<h3>Simple statement</h3>
+<h4>Simple statement</h4>
 
 <pre><code>RdfData rdfData = rdfBuilder {
   "http://example.com/resource/alice" {
@@ -70,7 +86,7 @@ RdfData rdfData = rdfBuilder {
   &lt;http://example.com/vocab/name&gt; "Alice".
 </code></pre>
 
-<h3>RDF types</h3>
+<h4>RDF types</h4>
 
 <p>Use the "a" keyword as a shortcut for the rdf:type predicate:</p>
 
@@ -89,7 +105,7 @@ RdfData rdfData = rdfBuilder {
   &lt;http://example.com/vocab/name&gt; "Alice".
 </code></pre>
 
-<h3>Multiple literals</h3>
+<h4>Multiple literals</h4>
 
 <p>Just pass a groovy list to assign multiple values:</p>
 
@@ -110,7 +126,7 @@ RdfData rdfData = rdfBuilder {
   &lt;http://example.com/vocab/name&gt; "Alice", "Julia".
 </code></pre>
 
-<h3>Language tags</h3>
+<h4>Language tags</h4>
 
 <p>You can easily assign a language to a literal like this:</p>
 
@@ -129,7 +145,7 @@ RdfData rdfData = rdfBuilder {
   &lt;http://example.com/vocab/name&gt; "Alice"@en.
 </code></pre>
 
-<h3>Nested resources</h3>
+<h4>Nested resources</h4>
 
 <p>Of course you can nest resources:</p>
 
@@ -159,7 +175,7 @@ RdfData rdfData = rdfBuilder {
   &lt;http://example.com/vocab/name&gt; "Bob".
 </code></pre>
 
-<h3>Using namespaces</h3>
+<h4>Using namespaces</h4>
 
 <p>The code will be much clearer if you use namespaces:</p>
 
@@ -187,13 +203,13 @@ RdfData rdfData = rdfBuilder {
 }
 </code></pre>
 
-<h4>Why this strange "$vocab.name"-Syntax?</h4>
+<h5>Why this strange "$vocab.name"-Syntax?</h5>
 
 <p>Because RdfBuilder actually has to call a method named "http://example.com/vocab/name" to build the statement.
 If we just wrote vocab.name Groovy would try to call a method <em>on</em> the resulting string instead of calling a method
 that is named like the value <em>in</em> the string. You will get used to it ;-)</p>
 
-<h3>Be dynamic</h3>
+<h4>Be dynamic</h4>
 
 <p>Of course when using a scripting language, you want to build your RDF dynamically based on some data structures.
 Here is an example with a Person class:</p>
@@ -227,16 +243,164 @@ RdfData rdfData = rdfBuilder {
 }
 </code></pre>
 
-<h3>Take a look at the unit tests</h3>
+<h4>Take a look at the unit tests</h4>
 
 <p>For more examples a look at the groovyrdf unit tests might be helpful:</p>
 
 <p>https://github.com/angelo-v/groovyrdf/tree/master/src/test/groovy/de/datenwissen/util/groovyrdf</p>
 
+<h2>Loading &amp; consuming RDF</h2>
+
+<h3>General syntax</h3>
+
+<pre><code>RdfResource resoure = rdfLoaderInstance.loadResource(resourceUri)
+resource.uri // get the resources URI
+resource.type // get the RDF type URI of the resource
+resource(predicateUri) // get the value/object of a predicate
+resource."$predicateUri" // another way to get the value/object of a predicate
+resource(predicateUri, language) // get the value in a specific language
+
+/*
+rdfLoaderInstance: Instance of RdfLoader
+resourceUri: String that contains a URI of a resource
+predicateUri: String that contains a URI of a predicate
+language: String containing a language tag
+*/
+</code></pre>
+
+<h3>Code Examples</h3>
+
+<p>Given the following data is provided under http://example.com/resource/alice</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  a &lt;http://example.com/vocab/Person&gt; ;
+  &lt;http://example.com/vocab/name&gt; 'Alice' ;
+  &lt;http://example.com/vocab/knows&gt; &lt;http://example.com/resource/bob&gt;.
+
+&lt;http://example.com/resource/alice.rdf&gt;
+  &lt;http://example.com/vocab/dateCreated&gt; '2012-12-12' .
+</code></pre>
+
+<h4>Instantiate RdfLoader</h4>
+
+<p>Currently a RdfLoader based on the Jena-Framework is supported:</p>
+
+<pre><code>def rdfLoader = new JenaRdfLoader()
+</code></pre>
+
+<p>A loader may be reused for multiple requests.</p>
+
+<h4>Load RDF document</h4>
+
+<p>The RDF data can be retrieved like this:</p>
+
+<pre><code>  RdfData rdfData = rdfLoaderInstance.load('http://example.com/resource/alice')
+</code></pre>
+
+<p>The loader uses content-negotiation, so that you do not have to care about the RDF data format used by the server you are querying.</p>
+
+<h4>Accessing RDF resources</h4>
+
+<p>RDF resources can be accessed by there uri in two different ways:</p>
+
+<pre><code>RdfData rdfData = rdfLoaderInstance.load('http://example.com/resource/alice')
+RdfResource alice = rdfData.'http://example.com/resource/alice' // first way
+RdfResource aliceDoc = rdfData('http://example.com/resource/alice.rdf') // second way
+</code></pre>
+
+<h4>Load RDF resource directly</h4>
+
+<p>If you are interested in only one specific resource, you may retrieve it directly via loadResource:</p>
+
+<pre><code>RdfResource alice = rdfLoaderInstance.loadResource('http://example.com/resource/alice')
+</code></pre>
+
+<h4>Listing subjects</h4>
+
+<p>You can get a list of all subject resources using the listSubject()-Method:</p>
+
+<pre><code>RdfData rdfData = rdfLoaderInstance.load('http://example.com/resource/alice')
+List&lt;RdfResource&gt; resources = rdfData.listSubjects()
+['http://example.com/resource/alice', 'http://example.com/resource/alice.rdf'] == resources*.uri
+</code></pre>
+
+<p>You may only list subjects of a specific RDF type:</p>
+
+<pre><code>List&lt;RdfResource&gt; resources = rdfData.listSubjects('http://example.com/vocab/Person')
+['http://example.com/resource/alice'] == resources*.uri
+</code></pre>
+
+<h4>Accessing properties</h4>
+
+<p>Accessing properties works the same ways as accessing the resources themselves:</p>
+
+<pre><code>RdfResource alice = rdfData.'http://example.com/resource/alice'
+RdfResource aliceDoc = rdfData('http://example.com/resource/alice.rdf')
+alice.'http://example.com/vocab/name' == 'Alice'
+aliceDoc('http://example.com/vocab/dateCreated') == '2012-12-12'
+</code></pre>
+
+<p>You can add a preferred language to get the property in that language, if available:</p>
+
+<pre><code>alice ('http://example.com/vocab/name', 'en') == 'Alice'
+</code></pre>
+
+<h4>Listing properties</h4>
+
+<p>You can list the available properties of a resource:</p>
+
+<pre><code>RdfResource alice = rdfData.'http://example.com/resource/alice'
+Set&lt;String&gt; properties = alice.listProperties ()
+['http://example.com/vocab/name', 'http://example.com/vocab/knows'] as Set == properties
+</code></pre>
+
+<p>Be aware that the RDF type is excluded from that list, although it may be present!</p>
+
+<h4>Single value vs. list of values</h4>
+
+<p>For any RDF predicate may exist multiple values. groovyrdf returns a single value, if there is only one, and a Set of vales, if there are multiple values for the given predicate.</p>
+
+<p>Given RDF:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  &lt;http://example.com/vocab/name&gt; "Alice" ;
+  &lt;http://example.com/vocab/nick&gt; "Ally", "Lissy";
+</code></pre>
+
+<p>Accessing the vocab:name predicate will return only one value, while accessing vocab:nick returns a Set:</p>
+
+<pre><code>RdfResource alice = rdfData.'http://example.com/resource/alice'
+alice.'http://example.com/vocab/name' == 'Alice'
+alice.'http://example.com/vocab/nick' == ['Ally', 'Lissy'] as Set
+</code></pre>
+
+<h4>Accessing linked resources</h4>
+
+<p>If the value of a property is a resoure, you will get a RdfResource instance:</p>
+
+<pre><code>RdfResource bob = alice.'http://example.com/vocab/knows'
+</code></pre>
+
+<p>You will get a Set of RdfResource instances, if there are multiple values!</p>
+
+<p>Note that you cannot access properties of the linked resource, that are not provided in the current RDF data:</p>
+
+<pre><code>bob.'http://example.com/vocab/name' == null
+</code></pre>
+
+<p>But you may explicitly load the linked resource and process the loaded data afterwards:</p>
+
+<pre><code>bob = rdfLoader.loadResource (bob.uri)
+bob.'http://example.com/vocab/name' == 'Bob'
+</code></pre>
+
 <h2>Final words</h2>
 
-<p>And now, be creative using groovyrdf to build your RDF data "the groovy way".
+<p>And now, be creative using groovyrdf to build and process RDF data "the groovy way".
 Questions, ideas and any feedback may be sent to angelo.veltens@online.de</p>
 
 <p>To contribute to groovyrdf just fork and sent a pull request at github:
 https://github.com/angelo-v/groovyrdf</p>
+
+</body>
+</html>
