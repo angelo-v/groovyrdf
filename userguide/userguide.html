@@ -8,7 +8,7 @@
 
 <h1>User guide - groovyrdf</h1>
 
-<p>Version 0.2</p>
+<p>Version 0.2.1</p>
 
 <p>groovyrdf is a groovy library that helps you building and consuming RDF data in a "groovy" way.  For building RDF see section "Building RDF". If you want to process RDF data or even load linked data resoures see section "Loading &amp; consuming RDF".</p>
 
@@ -37,7 +37,7 @@ a: Keyword for a type property
 typeUri: String that contains a URI of a type
 predicateUri: String that contains a URI of a predicate
 value: a String or a primitive
-list: a list of values 
+list: a list of values
 lang: Keyword for setting a language tag
 language: String containing a language tag
 */
@@ -177,6 +177,37 @@ RdfData rdfData = rdfBuilder {
   &lt;http://example.com/vocab/name&gt; "Bob".
 </code></pre>
 
+<h4>Adding WebIDs</h4>
+
+<p>You can easily add a WebID to a resource:</p>
+
+<pre><code>
+RdfData rdfData = rdfBuilder {
+  "http://example.com/resource/alice" {
+    publicKey (
+      '#alicePublicKey',
+      label: 'Public Key of Alice',
+      modulus: '2cbf8fff963dea33ee7d4f007ae',
+      exponent: 65537
+    )
+  }
+}
+</code></pre>
+
+<p>is equivalent to the following RDF in TURTLE syntax:</p>
+
+<pre><code>&lt;http://example.com/resource/alice&gt;
+  &lt;http://www.w3.org/ns/auth/cert#key&gt;
+    &lt;#alicePublicKey&gt;.
+
+  &lt;#alicePublicKey&gt;
+    a "http://www.w3.org/ns/auth/cert#RSAPublicKey";
+    &lt;http://www.w3.org/2000/01/rdf-schema#label&gt; "Public Key of Alice";
+    &lt;http://www.w3.org/ns/auth/cert#exponent&gt; 65537;
+    &lt;http://www.w3.org/ns/auth/cert#modulus&gt;
+      "2cbf8fff963dea33ee7d4f007ae"^^&lt;http://www.w3.org/2001/XMLSchema#hexBinary&gt; .
+</code></pre>
+
 <h4>Using namespaces</h4>
 
 <p>The code will be much clearer if you use namespaces:</p>
@@ -220,7 +251,7 @@ Here is an example with a Person class:</p>
   String uri
   String name
   List&lt;Person&gt; friends
-}      
+}
 </code></pre>
 
 <p>This will generate RDF data with the name of a person and all their friends:</p>

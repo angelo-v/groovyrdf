@@ -1,6 +1,6 @@
 # User guide - groovyrdf
 
-Version 0.2
+Version 0.2.1
 
 groovyrdf is a groovy library that helps you building and consuming RDF data in a "groovy" way.  For building RDF see section "Building RDF". If you want to process RDF data or even load linked data resoures see section "Loading & consuming RDF".
 
@@ -33,7 +33,7 @@ groovyrdf is a groovy library that helps you building and consuming RDF data in 
     lang: Keyword for setting a language tag
     language: String containing a language tag
     */
-    
+
 
 ### Code Examples
 
@@ -156,7 +156,35 @@ is equivalent to the following RDF in TURTLE syntax:
     <http://example.com/resource/bob>
       a <http://example.com/vocab/Person>;
       <http://example.com/vocab/name> "Bob".
-      
+
+#### Adding WebIDs
+
+You can easily add a WebID to a resource:
+
+    RdfData rdfData = rdfBuilder {
+      "http://example.com/resource/alice" {
+        publicKey (
+          '#alicePublicKey',
+          label: 'Public Key of Alice',
+          modulus: '2cbf8fff963dea33ee7d4f007ae',
+          exponent: 65537
+        )
+      }
+    }
+
+is equivalent to the following RDF in TURTLE syntax:
+
+    <http://example.com/resource/alice>
+      <http://www.w3.org/ns/auth/cert#key>
+        <#alicePublicKey>.
+
+    <#alicePublicKey>
+      a "http://www.w3.org/ns/auth/cert#RSAPublicKey";
+      <http://www.w3.org/2000/01/rdf-schema#label> "Public Key of Alice";
+      <http://www.w3.org/ns/auth/cert#exponent> 65537;
+      <http://www.w3.org/ns/auth/cert#modulus>
+        "2cbf8fff963dea33ee7d4f007ae"^^<http://www.w3.org/2001/XMLSchema#hexBinary> .
+
 #### Using namespaces
 
 The code will be much clearer if you use namespaces:
