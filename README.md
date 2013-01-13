@@ -12,7 +12,7 @@ Please contact me for any questions & feedback: [angelo.veltens@online.de](mailt
 
 ## License
 
-Copyright (c) 2011, Angelo Veltens
+Copyright (c) 2011, Angelo Veltens  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
