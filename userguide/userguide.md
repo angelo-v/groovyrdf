@@ -179,7 +179,7 @@ is equivalent to the following RDF in TURTLE syntax:
         <#alicePublicKey>.
 
     <#alicePublicKey>
-      a "http://www.w3.org/ns/auth/cert#RSAPublicKey";
+      a <http://www.w3.org/ns/auth/cert#RSAPublicKey>;
       <http://www.w3.org/2000/01/rdf-schema#label> "Public Key of Alice";
       <http://www.w3.org/ns/auth/cert#exponent> 65537;
       <http://www.w3.org/ns/auth/cert#modulus>

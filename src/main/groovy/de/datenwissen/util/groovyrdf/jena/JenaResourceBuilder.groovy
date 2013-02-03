@@ -36,7 +36,7 @@ protected class JenaResourceBuilder extends JenaAbstractResourceBuilder {
 
     protected Object addPublicKey (Model model, String keyUri, String label, String modulus, int exponent) {
         def key = model.createResource (keyUri)
-        key.addProperty (RDF.type, 'http://www.w3.org/ns/auth/cert#RSAPublicKey')
+        key.addProperty (RDF.type, ResourceFactory.createResource ('http://www.w3.org/ns/auth/cert#RSAPublicKey'))
         if (label) {
             key.addProperty (RDFS.label, label)
         }

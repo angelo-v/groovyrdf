@@ -130,7 +130,7 @@ class ExpectedDataBuilder {
         location (anne, "Hamburg")
         location (marc, "Braunschweig")
 
-        RdfData expectedRdfData = new JenaRdfData (expectedModel)
+        return new JenaRdfData (expectedModel)
     }
 
     private Resource createPerson (Model model, String name) {
@@ -168,7 +168,7 @@ class ExpectedDataBuilder {
         Model expectedModel = ModelFactory.createDefaultModel ()
         Resource resource = expectedModel.createResource ("http://example.com/resource/alice")
         Resource key = expectedModel.createResource ("#rsaPublicKey")
-        key.addProperty (RDF.type, "http://www.w3.org/ns/auth/cert#RSAPublicKey")
+        key.addProperty (RDF.type, ResourceFactory.createResource ("http://www.w3.org/ns/auth/cert#RSAPublicKey"))
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/2000/01/rdf-schema#label"), "Public Key Label")
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#modulus"), "cbf8fff963dea33ee7d4f007ae", XSDDatatype.XSDhexBinary)
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#exponent"), "65537", XSDDatatype.XSDinteger)
@@ -180,7 +180,7 @@ class ExpectedDataBuilder {
         Model expectedModel = ModelFactory.createDefaultModel ()
         Resource resource = expectedModel.createResource ("http://example.com/resource/alice")
         Resource key = expectedModel.createResource ("#rsaPublicKey")
-        key.addProperty (RDF.type, "http://www.w3.org/ns/auth/cert#RSAPublicKey")
+        key.addProperty (RDF.type, ResourceFactory.createResource ("http://www.w3.org/ns/auth/cert#RSAPublicKey"))
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#modulus"), "cbf8fff963dea33ee7d4f007ae", XSDDatatype.XSDhexBinary)
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#exponent"), "65537", XSDDatatype.XSDinteger)
         resource.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#key"), key)
@@ -193,7 +193,7 @@ class ExpectedDataBuilder {
         Resource bob = expectedModel.createResource ("http://example.com/resource/bob")
         knows (alice, bob)
         Resource key = expectedModel.createResource ("#rsaPublicKey")
-        key.addProperty (RDF.type, "http://www.w3.org/ns/auth/cert#RSAPublicKey")
+        key.addProperty (RDF.type, ResourceFactory.createResource ("http://www.w3.org/ns/auth/cert#RSAPublicKey"))
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/2000/01/rdf-schema#label"), "Public Key Label")
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#modulus"), "cbf8fff963dea33ee7d4f007ae", XSDDatatype.XSDhexBinary)
         key.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#exponent"), "65537", XSDDatatype.XSDinteger)
@@ -208,7 +208,7 @@ class ExpectedDataBuilder {
         knows (alice, bob)
 
         Resource alicesKey = expectedModel.createResource ("#rsaPublicKeyAlice")
-        alicesKey.addProperty (RDF.type, "http://www.w3.org/ns/auth/cert#RSAPublicKey")
+        alicesKey.addProperty (RDF.type, ResourceFactory.createResource ("http://www.w3.org/ns/auth/cert#RSAPublicKey"))
         alicesKey.addProperty (ResourceFactory.createProperty ("http://www.w3.org/2000/01/rdf-schema#label"), "Public Key of Alice")
         alicesKey.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#modulus"), "1cbf8fff963dea33ee7d4f007ae", XSDDatatype.XSDhexBinary)
         alicesKey.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#exponent"), "65537", XSDDatatype.XSDinteger)
@@ -216,7 +216,7 @@ class ExpectedDataBuilder {
 
 
         Resource bobsKey = expectedModel.createResource ("#rsaPublicKeyBob")
-        bobsKey.addProperty (RDF.type, "http://www.w3.org/ns/auth/cert#RSAPublicKey")
+        bobsKey.addProperty (RDF.type, ResourceFactory.createResource ("http://www.w3.org/ns/auth/cert#RSAPublicKey"))
         bobsKey.addProperty (ResourceFactory.createProperty ("http://www.w3.org/2000/01/rdf-schema#label"), "Public Key of Bob")
         bobsKey.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#modulus"), "2cbf8fff963dea33ee7d4f007ae", XSDDatatype.XSDhexBinary)
         bobsKey.addProperty (ResourceFactory.createProperty ("http://www.w3.org/ns/auth/cert#exponent"), "65538", XSDDatatype.XSDinteger)
