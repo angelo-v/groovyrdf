@@ -10,6 +10,8 @@ import static de.datenwissen.util.groovyrdf.test.Assert.*
 import static org.junit.Assert.assertNotNull
 import de.datenwissen.util.groovyrdf.core.InvalidWebIdException
 
+import static org.junit.Assert.fail
+
 /**
  * This tests covers the building of rdf data with a {@link JenaRdfBuilder}.
  * The data to be built is hardcoded, for building rdf from dynamic data structures see {@link JenaRdfBuilderDynamicTest},
