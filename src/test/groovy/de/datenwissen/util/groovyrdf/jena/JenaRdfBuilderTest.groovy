@@ -1,16 +1,14 @@
 package de.datenwissen.util.groovyrdf.jena;
 
 
+import de.datenwissen.util.groovyrdf.core.InvalidWebIdException
 import de.datenwissen.util.groovyrdf.core.RdfData
 import de.datenwissen.util.groovyrdf.core.RdfDataFormat
 import org.junit.Before
 import org.junit.Test
 
-import static de.datenwissen.util.groovyrdf.test.Assert.*
+import static de.datenwissen.util.groovyrdf.test.Assert.assertIsomorphic
 import static org.junit.Assert.assertNotNull
-import de.datenwissen.util.groovyrdf.core.InvalidWebIdException
-
-import static org.junit.Assert.fail
 
 /**
  * This tests covers the building of rdf data with a {@link JenaRdfBuilder}.
