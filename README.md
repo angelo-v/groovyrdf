@@ -1,5 +1,7 @@
 # groovyrdf
 
+[![CircleCI](https://circleci.com/gh/angelo-v/groovyrdf/tree/master.svg?style=svg)](https://circleci.com/gh/angelo-v/groovyrdf/tree/master)
+
 Library for building and processing RDF data with Groovy. groovyrdf helps you to build and consume RDF and Linked Data "the groovy way".
 
 Version 0.2.1
