@@ -1,9 +1,9 @@
 package de.datenwissen.util.groovyrdf.jena;
 
 
-import com.hp.hpl.jena.rdf.model.Model
-import com.hp.hpl.jena.rdf.model.ModelFactory
-import com.hp.hpl.jena.rdf.model.ResourceFactory
+import org.apache.jena.rdf.model.Model
+import org.apache.jena.rdf.model.ModelFactory
+import org.apache.jena.rdf.model.ResourceFactory
 import de.datenwissen.util.groovyrdf.core.RdfData
 import de.datenwissen.util.groovyrdf.core.RdfNamespace
 import org.junit.Before
@@ -17,10 +17,10 @@ import static de.datenwissen.util.groovyrdf.test.Assert.*
  * This tests covers the building of rdf data from classes with {@link JenaRdfBuilder}
  */
 class JenaRdfBuilderClassesTest {
-	
+
 	def builder
 	def birthDay
-	
+
 	@Before
 	public void setUp() throws Exception {
 		builder = new JenaRdfBuilder()
@@ -29,10 +29,10 @@ class JenaRdfBuilderClassesTest {
 
 	@Test
 	void testBuildPersonRdf() {
-		
+
 		final RdfNamespace FOAF = new RdfNamespace("http://example.org/vocab/foaf/")
 		final RdfNamespace DC = new RdfNamespace("http://example.org/vocab/dc/")
-		
+
 		def alice = new Person(
 			webId: "http://example.org/alice#me",
 			documentUri: "http://example.org/alice",
@@ -47,7 +47,7 @@ class JenaRdfBuilderClassesTest {
 			knows: [
 			]
 		)
-		
+
 		def bob = new Person(
 			webId: "http://example.org/bob#me",
 			documentUri: "http://example.org/bob",
@@ -60,10 +60,10 @@ class JenaRdfBuilderClassesTest {
 			birthDay: birthDay+1,
 			age: 22,
 			knows: [
-				alice	
+				alice
 			]
 		)
-		
+
 		def trudy = new Person(
 			webId: "http://example.org/trudy#me",
 			documentUri: "http://example.org/trudy",
@@ -79,23 +79,23 @@ class JenaRdfBuilderClassesTest {
 				alice, bob
 			]
 		)
-		
+
 		RdfData expectedRdfData = buildExpectedData()
 		RdfData rdfData = builder.rdf(trudy.rdfTemplate)
 		assertIsomorphic(expectedRdfData, rdfData)
 
 	}
-	
+
 	private RdfData buildExpectedData() {
 		Model expectedModel = ModelFactory.createDefaultModel()
-		
+
 		def aliceResource = expectedModel.createResource("http://example.org/alice#me", ResourceFactory.createResource("http://example.org/vocab/foaf/Person"))
 		aliceResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/givenName"), "Alice")
 		aliceResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/familyName"), "Smith")
 		def bobResource = expectedModel.createResource("http://example.org/bob#me", ResourceFactory.createResource("http://example.org/vocab/foaf/Person"))
 		bobResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/givenName"), "Bob")
 		bobResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/familyName"), "Miller")
-		
+
 		def trudyResource = expectedModel.createResource("http://example.org/trudy#me", ResourceFactory.createResource("http://example.org/vocab/foaf/Person"))
 		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/title"), "Mrs.")
 		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/givenName"), "Trudy")
@@ -107,37 +107,37 @@ class JenaRdfBuilderClassesTest {
 		def knowsProperty = ResourceFactory.createProperty("http://example.org/vocab/foaf/knows")
 		trudyResource.addProperty(knowsProperty, aliceResource)
 		trudyResource.addProperty(knowsProperty, bobResource)
-		
+
 		def documentResource = expectedModel.createResource("http://example.org/trudy", ResourceFactory.createResource("http://example.org/vocab/foaf/PersonalProfileDocument"))
 		documentResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/dc/title"), "FOAF document of Trudy")
 		documentResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/primaryTopic"), trudyResource)
-		
+
 		return new JenaRdfData(expectedModel)
 	}
 }
 
 class Person {
-	
+
 	static final RdfNamespace FOAF = new RdfNamespace("http://example.org/vocab/foaf/")
 	static final RdfNamespace DC = new RdfNamespace("http://example.org/vocab/dc/")
-	
+
 	String webId
 	String documentUri
-	
+
 	String	title
 	String	givenName
 	String	familyName
-	
+
 	String	nick
-	
+
 	String	mboxSha1
 	String	homepage
-	
+
 	Date	birthDay
 	int 	age
-	
+
 	List<Person> knows = []
-	
+
 	def rdfTemplate = {
 		"$webId" {
 			a FOAF.Person
@@ -168,5 +168,5 @@ class Person {
 			}
 		}
 	}
-	
+
 }
