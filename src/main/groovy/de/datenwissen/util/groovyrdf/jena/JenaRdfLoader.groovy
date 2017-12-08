@@ -25,16 +25,16 @@ class JenaRdfLoader implements RdfLoader {
         if (!requestUri) throw new RdfLoadingException('The request URI must not be null')
         HttpBuilder http = configureHttp(requestUri)
         def result = null
-        http.get(String) {
+        http.get {
             request.headers.Accept = ACCEPT_HEADER
             request.uri.fragment = null
             response.when(404) {
                 throw new RdfLoadingException("The request to $requestUri returned 404 (Not Found)")
             }
-            response.success { FromServer fs ->
+            response.success { FromServer fs, byte[] content ->
                 def model = ModelFactory.createDefaultModel()
                 RdfDataFormat rdfDataFormat = determineRdfFormat(fs.contentType)
-                tryToReadModel(model, fs.reader, rdfDataFormat)
+                tryToReadModel(model, new ByteArrayInputStream(content), rdfDataFormat)
                 result = new JenaRdfData(model)
             }
             response.failure { FromServer fs ->
@@ -60,9 +60,9 @@ class JenaRdfLoader implements RdfLoader {
         return rdfDataFormat
     }
 
-    private void tryToReadModel(Model model, Reader reader, RdfDataFormat rdfDataFormat) {
+    private void tryToReadModel(Model model, InputStream stream, RdfDataFormat rdfDataFormat) {
         try {
-            model.read(reader, '', rdfDataFormat.jenaFormat)
+            model.read(stream, '', rdfDataFormat.jenaFormat)
         } catch (TurtleParseException ex) {
             handleParseError(rdfDataFormat, ex)
         } catch (SyntaxError err) {

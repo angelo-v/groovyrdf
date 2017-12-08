@@ -1,6 +1,7 @@
 package de.datenwissen.util.groovyrdf.jena
 
 import de.datenwissen.util.groovyrdf.core.RdfData
+import de.datenwissen.util.groovyrdf.core.RdfDataFormat
 import de.datenwissen.util.groovyrdf.core.RdfLoadingException
 import de.datenwissen.util.groovyrdf.core.RdfParsingException
 import de.datenwissen.util.groovyrdf.core.RdfResource
@@ -42,6 +43,12 @@ public class JenaRdfLoaderTest {
               </rdf:Description>
             </rdf:RDF>
         ''')
+    }
+
+    @Test
+    void testRealWorldRdf() {
+        def rdfData = new JenaRdfLoader().load('http://dbpedia.org/resource/Berlin')
+        assert rdfData('http://dbpedia.org/resource/Berlin') != null
     }
 
     @Test
@@ -124,7 +131,6 @@ public class JenaRdfLoaderTest {
     }
 
     private void mockRequest(String responseContentType, String responseContent) {
-        def reader = new StringReader(responseContent)
         def headers = [Accept: null]
         def uri = [fragment: '#it']
         Closure successClosure = null
@@ -142,12 +148,11 @@ public class JenaRdfLoaderTest {
             request.uri = 'http://mock.example'
         }
         JenaRdfLoader.metaClass.static.configureHttp = { String requestUri -> return mockHttp }
-        mockHttp.metaClass.get = { Class type, Closure closure ->
-            assertEquals(String, type)
+        mockHttp.metaClass.get = { Closure closure ->
             closure()
             assertEquals('application/rdf+xml;q=0.4, text/turtle;q=0.3, text/n3;q=0.2, text/plain;q=0.1', headers.Accept)
             assertNull('Fragment should be stripped off', uri.fragment)
-            successClosure(new MockFromServer(responseContentType, reader))
+            successClosure(new MockFromServer(contentType: responseContentType), responseContent.bytes)
         }
     }
 
@@ -170,7 +175,7 @@ public class JenaRdfLoaderTest {
             request.uri = 'http://mock.example'
         }
         JenaRdfLoader.metaClass.static.configureHttp = { String requestUri -> return mockHttp }
-        mockHttp.metaClass.get = { Class type, Closure closure ->
+        mockHttp.metaClass.get = { Closure closure ->
             closure()
             on404Closure()
         }
@@ -194,9 +199,9 @@ public class JenaRdfLoaderTest {
             request.uri = 'http://mock.example'
         }
         JenaRdfLoader.metaClass.static.configureHttp = { String requestUri -> return mockHttp }
-        mockHttp.metaClass.get = { Class type, Closure closure ->
+        mockHttp.metaClass.get = { Closure closure ->
             closure()
-            failureClosure(new MockFromServer("Mocked HTTP Error"))
+            failureClosure(new MockFromServer(message: "Mocked HTTP Error"))
         }
     }
 
@@ -223,18 +228,7 @@ public class JenaRdfLoaderTest {
 class MockFromServer implements FromServer {
 
     private String contentType
-    private Reader reader
-
     private String message
-
-    MockFromServer(String contentType, Reader reader) {
-        this.contentType = contentType
-        this.reader = reader
-    }
-
-    MockFromServer(String message) {
-        this.message = message
-    }
 
     @Override
     InputStream getInputStream() {
@@ -272,7 +266,7 @@ class MockFromServer implements FromServer {
     }
 
     Reader getReader() {
-        return this.reader
+        return null
     }
 
     String getContentType() {
