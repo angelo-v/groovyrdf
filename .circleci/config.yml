@@ -7,8 +7,8 @@ jobs:
     steps:
       - checkout
       - run: ./gradlew test
-      - run:  mkdir -p $CIRCLE_TEST_REPORTS/junit/
-      - run: find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - run:  mkdir -p ~/junit/
+      - run: find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
       - store_test_results:
           path: ~/junit
       - store_artifacts:
