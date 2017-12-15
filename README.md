@@ -4,7 +4,7 @@
 
 Library for building and processing RDF data with Groovy. groovyrdf helps you to build and consume RDF and Linked Data "the groovy way".
 
-Version 0.2.1
+Version 0.2.2
 
 ## Usage
 
@@ -15,6 +15,10 @@ Please take a look at the user guide on how to use groovyrdf. The guide can be f
 Please contact me for any questions & feedback: [angelo.veltens@online.de](mailto:angelo.veltens@online.de)
 
 ## Release Notes
+
+Version 0.2.2
+
+- security updates
 
 Version 0.2.1
 

@@ -1,0 +1,37 @@
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: openjdk:8
+    steps:
+      - checkout
+      - run: ./gradlew test
+      - run:  mkdir -p $CIRCLE_TEST_REPORTS/junit/
+      - run: find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - store_test_results:
+          path: ~/junit
+      - store_artifacts:
+          path: ~/junit
+  build:
+    docker:
+      - image: openjdk:8
+    steps:
+      - checkout
+      - run: ./gradlew assemble
+      - run: ./gradlew bintrayUpload
+      - store_artifacts:
+          path: ./build/libs
+          prefix: libs
+
+workflows:
+  version: 2
+  test_build_publish:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
