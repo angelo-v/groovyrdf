@@ -1,14 +1,41 @@
-# groovyrdf
-
-[![CircleCI](https://circleci.com/gh/angelo-v/groovyrdf/tree/master.svg?style=svg)](https://circleci.com/gh/angelo-v/groovyrdf/tree/master)
+# groovyrdf [![CircleCI](https://circleci.com/gh/angelo-v/groovyrdf/tree/master.svg?style=svg)](https://circleci.com/gh/angelo-v/groovyrdf/tree/master) [![Known Vulnerabilities](https://snyk.io/test/github/angelo-v/groovyrdf/badge.svg)](https://snyk.io/test/github/angelo-v/groovyrdf)
 
 Library for building and processing RDF data with Groovy. groovyrdf helps you to build and consume RDF and Linked Data "the groovy way".
 
 Version 0.2.2
 
+## Install 
+
+### Maven
+
+```xml
+<dependency>
+  <groupId>de.datenwissen.util</groupId>
+  <artifactId>groovyrdf</artifactId>
+  <version>0.2.2</version>
+  <type>pom</type>
+</dependency>
+```
+
+### Gradle
+
+```groovy
+compile 'de.datenwissen.util:groovyrdf:0.2.2'
+```
+
+### Ivy
+
+```xml
+<dependency org='de.datenwissen.util' name='groovyrdf' rev='0.2.2'>
+  <artifact name='groovyrdf' ext='pom' ></artifact>
+</dependency>
+```
+
 ## Usage
 
-Please take a look at the user guide on how to use groovyrdf. The guide can be found in the /userguide directory and at http://angelo-v.github.com/groovyrdf/
+Please take a look at the [user guide] on how to use groovyrdf.
+
+[user guide]: http://angelo-v.github.com/groovyrdf/
 
 ## Contact
 
@@ -34,7 +61,7 @@ Version 0.1
 
 ## License
 
-Copyright (c) 2013, Angelo Veltens
+Copyright (c) 2017, Angelo Veltens
 
 All rights reserved.
 
