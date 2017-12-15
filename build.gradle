@@ -3,13 +3,15 @@ plugins {
 }
 
 apply plugin:"groovy"
+apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 ext {
     versionName = '0.2.2'
+    mavenGroupId = 'de.datenwissen.util'
 }
 
-group = 'de.datenwissen.util'
+group = mavenGroupId
 version = versionName
 
 repositories {
@@ -28,6 +30,19 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
 }
 
+publishing {
+    publications {
+        GroovyrdfPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId mavenGroupId
+            artifactId 'groovyrdf'
+            version versionName
+        }
+    }
+}
+
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
@@ -42,9 +57,22 @@ bintray {
             vcsTag = versionName
         }
     }
-    filesSpec {
-        from 'build/libs'
-        into '.'
-    }
+    publications = ['GroovyrdfPublication']
     publish = true
+    override = true // override version artifacts already published
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from groovydoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
