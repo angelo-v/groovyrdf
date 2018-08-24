@@ -1,17 +1,17 @@
-package de.datenwissen.util.groovyrdf.jena;
+package de.datenwissen.util.groovyrdf.jena
 
-
+import de.datenwissen.util.groovyrdf.core.RdfData
+import de.datenwissen.util.groovyrdf.core.RdfNamespace
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.rdf.model.ResourceFactory
-import de.datenwissen.util.groovyrdf.core.RdfData
-import de.datenwissen.util.groovyrdf.core.RdfNamespace
 import org.junit.Before
 import org.junit.Test
 
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-import static de.datenwissen.util.groovyrdf.test.Assert.*
+import static de.datenwissen.util.groovyrdf.test.Assert.assertIsomorphic
 
 /**
  * This tests covers the building of rdf data from classes with {@link JenaRdfBuilder}
@@ -19,12 +19,12 @@ import static de.datenwissen.util.groovyrdf.test.Assert.*
 class JenaRdfBuilderClassesTest {
 
 	def builder
-	def birthDay
+	LocalDate birthDay
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new JenaRdfBuilder()
-		birthDay = new Date()
+		LocalDate date = birthDay = LocalDate.now()
 	}
 
 	@Test
@@ -42,7 +42,7 @@ class JenaRdfBuilderClassesTest {
 			nick: "alice",
 			mboxSha1: '0815',
 			homepage: "http://example.org/",
-			birthDay: birthDay+2,
+			birthDay: birthDay.plusDays(2),
 			age: 21,
 			knows: [
 			]
@@ -57,7 +57,7 @@ class JenaRdfBuilderClassesTest {
 			nick: "bo",
 			mboxSha1: '4711',
 			homepage: "http://example.com/",
-			birthDay: birthDay+1,
+			birthDay: birthDay.plusDays(1),
 			age: 22,
 			knows: [
 				alice
@@ -102,7 +102,7 @@ class JenaRdfBuilderClassesTest {
 		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/familyName"), "Doe")
 		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/mbox_sha1sum"), "1337")
 		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/homepage"), ResourceFactory.createResource("http://example.net/"))
-		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/birthday"), new SimpleDateFormat('MM-dd').format(birthDay))
+		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/birthday"), birthDay.format(DateTimeFormatter.ofPattern("MM-dd")))
 		trudyResource.addProperty(ResourceFactory.createProperty("http://example.org/vocab/foaf/age"), 23)
 		def knowsProperty = ResourceFactory.createProperty("http://example.org/vocab/foaf/knows")
 		trudyResource.addProperty(knowsProperty, aliceResource)
@@ -133,7 +133,7 @@ class Person {
 	String	mboxSha1
 	String	homepage
 
-	Date	birthDay
+	LocalDate birthDay
 	int 	age
 
 	List<Person> knows = []
@@ -148,7 +148,7 @@ class Person {
 			"$FOAF.homepage" {
 				"$homepage" {}
 			}
-			"$FOAF.birthday" new SimpleDateFormat('MM-dd').format(birthDay)
+			"$FOAF.birthday" birthDay.format(DateTimeFormatter.ofPattern("MM-dd"))
 			"$FOAF.age" age
 			"$FOAF.knows" {
 				knows.each { friend ->
