@@ -43,9 +43,9 @@ Please contact me for any questions & feedback: [angelo.veltens@online.de](mailt
 
 ## Release Notes
 
-Version 0.2.2 - 0.2.4
+Version 0.2.2 - 0.2.5
 
-- security updates
+- security & dependency updates
 
 Version 0.2.1
 
