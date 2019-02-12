@@ -7,7 +7,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 ext {
-    versionName = '0.2.5'
+    versionName = '0.2.6'
     mavenGroupId = 'de.datenwissen.util'
 }
 

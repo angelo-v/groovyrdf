@@ -43,7 +43,7 @@ Please contact me for any questions & feedback: [angelo.veltens@online.de](mailt
 
 ## Release Notes
 
-Version 0.2.2 - 0.2.5
+Version 0.2.2 - 0.2.6
 
 - security & dependency updates
 
