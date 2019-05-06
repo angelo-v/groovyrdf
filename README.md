@@ -2,7 +2,7 @@
 
 Library for building and processing RDF data with Groovy. groovyrdf helps you to build and consume RDF and Linked Data "the groovy way".
 
-Version 0.2.6
+Version 0.2.7
 
 ## Install 
 
@@ -12,7 +12,7 @@ Version 0.2.6
 <dependency>
   <groupId>de.datenwissen.util</groupId>
   <artifactId>groovyrdf</artifactId>
-  <version>0.2.6</version>
+  <version>0.2.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -20,13 +20,13 @@ Version 0.2.6
 ### Gradle
 
 ```groovy
-compile 'de.datenwissen.util:groovyrdf:0.2.6'
+compile 'de.datenwissen.util:groovyrdf:0.2.7'
 ```
 
 ### Ivy
 
 ```xml
-<dependency org='de.datenwissen.util' name='groovyrdf' rev='0.2.6'>
+<dependency org='de.datenwissen.util' name='groovyrdf' rev='0.2.7'>
   <artifact name='groovyrdf' ext='pom' ></artifact>
 </dependency>
 ```
@@ -43,7 +43,7 @@ Please contact me for any questions & feedback: [angelo.veltens@online.de](mailt
 
 ## Release Notes
 
-Version 0.2.2 - 0.2.6
+Version 0.2.2 - 0.2.7
 
 - security & dependency updates
 
